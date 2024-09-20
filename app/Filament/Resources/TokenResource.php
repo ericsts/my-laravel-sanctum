@@ -19,53 +19,18 @@ class TokenResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('tokenable_type')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('tokenable_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('token')
-                    ->required()
-                    ->maxLength(64),
-                Forms\Components\Textarea::make('abilities')
-                    ->columnSpanFull(),
-                Forms\Components\DateTimePicker::make('last_used_at'),
-                Forms\Components\DateTimePicker::make('expires_at'),
-            ]);
-    }
-
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tokenable_type')
+                Tables\Columns\TextColumn::make('tokenable.name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tokenable_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('token')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('last_used_at')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('expires_at')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -74,7 +39,6 @@ class TokenResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
